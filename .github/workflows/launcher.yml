@@ -1,0 +1,70 @@
+# ============================================================================
+#  (Ce fichier est envoyé sur GitHub par PUBLIER.bat sous .github/workflows/launcher.yml)
+#  CONSTRUCTION ET PUBLICATION DU LAUNCHER (automatique, sur les serveurs de GitHub)
+#  Quand le code du launcher arrive sur GitHub (PUBLIER.bat), GitHub vérifie le code
+#  (npm test), construit l'installateur Windows et le publie dans « Releases » sous le
+#  nom v<version de package.json>. Les launchers déjà installés se mettent à jour tout seuls.
+#  Si cette version est déjà publiée, il ne fait rien.
+# ============================================================================
+name: Launcher Windows
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'demo/**'
+      - 'build/**'
+      - 'launcher.config.js'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/launcher.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: launcher
+  cancel-in-progress: false
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cette version est-elle déjà publiée ?
+        id: deja
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          v=$(node -p "require('./package.json').version")
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+          if gh release view "v$v" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            echo "publie=oui" >> "$GITHUB_OUTPUT"
+            echo "La version $v est déjà publiée : rien à faire."
+          else
+            echo "publie=non" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-node@v4
+        if: steps.deja.outputs.publie == 'non'
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installation des outils
+        if: steps.deja.outputs.publie == 'non'
+        run: npm ci
+
+      - name: Tests
+        if: steps.deja.outputs.publie == 'non'
+        run: npm test
+
+      - name: Construction et publication
+        if: steps.deja.outputs.publie == 'non'
+        run: npx electron-builder --win --publish always
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

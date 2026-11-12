@@ -1,0 +1,18 @@
+{
+  "version": "3.16",
+  "exe": "MidnightCity.exe",
+  "date": "2026-11-12T21:12:16.362Z",
+  "files": [
+    {
+      "path": "LISEZMOI.txt",
+      "size": 17972,
+      "sha256": "40db7ed6c0fa76c4e45201654535ca0a7634aac658a702262ff33cb10423898a"
+    },
+    {
+      "path": "MidnightCity.exe",
+      "size": 464019360,
+      "sha256": "96f4763c00cc919a30cbef5ee300f3d6d7c39c160b58397386b1c0736f382c09"
+    }
+  ],
+  "baseUrl": "https://github.com/kaisbregon-tech/Se3la-Launcher/releases/download/midnight-city-3.16/"
+}

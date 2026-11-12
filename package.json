@@ -1,0 +1,58 @@
+{
+  "name": "sel3a-launcher",
+  "productName": "SEL3A Launcher",
+  "version": "1.1.0",
+  "description": "Launcher officiel de mon jeu : comptes joueurs, téléchargement, mises à jour et actus.",
+  "main": "src/main/main.js",
+  "author": "Mon Studio",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win",
+    "publier": "node tools/publier-jeu.js",
+    "test": "node --test",
+    "publier-github": "node tools/publier-github.js"
+  },
+  "dependencies": {
+    "electron-updater": "^6.6.2"
+  },
+  "devDependencies": {
+    "electron": "^42.0.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.sel3a.launcher",
+    "productName": "SEL3A Launcher",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "demo/**/*",
+      "launcher.config.js",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "artifactName": "SEL3A-Launcher-Setup-${version}.${ext}",
+      "oneClick": true,
+      "perMachine": false,
+      "runAfterFinish": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "kaisbregon-tech",
+        "repo": "Se3la-Launcher",
+        "releaseType": "release"
+      }
+    ]
+  }
+}

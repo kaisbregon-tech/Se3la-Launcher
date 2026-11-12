@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+  />
+  <title>Launcher</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Fond : l'image floutée + particules violettes -->
+  <div class="ambient" id="ambient"></div>
+  <div class="particles" id="particles" aria-hidden="true"></div>
+
+  <!-- ===================== BARRE DU HAUT ===================== -->
+  <header class="titlebar">
+    <div class="tb-left">
+      <img class="tb-logo" id="tbLogo" alt="" />
+      <span class="tb-name" id="tbName">LAUNCHER</span>
+      <span class="pill pill-demo hidden" id="demoPill" title="Firebase n'est pas encore configuré : la connexion est simulée. Voir GUIDE.md.">MODE DÉMO</span>
+      <button class="pill pill-update hidden" id="updPill" type="button"></button>
+    </div>
+
+    <nav class="tb-nav hidden" id="mainNav">
+      <button class="nav-btn active" data-view="home">Accueil</button>
+      <button class="nav-btn" data-view="news">Actualités</button>
+    </nav>
+
+    <div class="tb-right">
+      <div class="user hidden" id="userBox">
+        <button class="user-btn" id="userBtn" aria-haspopup="menu">
+          <span class="avatar" id="avatar"></span>
+          <span class="user-name" id="userName"></span>
+          <svg class="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
+        </button>
+        <div class="menu" id="userMenu" role="menu">
+          <div class="menu-head">
+            <strong id="menuName"></strong>
+            <span id="menuEmail"></span>
+          </div>
+          <button data-action="profile"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4 4-6 8-6s8 2 8 6" /></svg>Mon profil</button>
+          <button data-action="settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" /></svg>Paramètres</button>
+          <div class="menu-sep"></div>
+          <button data-action="signout" class="danger"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" /></svg>Se déconnecter</button>
+        </div>
+      </div>
+
+      <div class="win-ctrls">
+        <button id="btnMin" title="Réduire"><svg viewBox="0 0 24 24"><path d="M5 12h14" /></svg></button>
+        <button id="btnMax" title="Agrandir"><svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="1" /></svg></button>
+        <button id="btnClose" class="close" title="Fermer"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" /></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===================== CHARGEMENT ===================== -->
+    <section class="view view-splash active" id="viewSplash">
+      <img class="splash-logo" id="splashLogo" alt="" />
+      <div class="loader"></div>
+    </section>
+
+    <!-- ===================== CONNEXION ===================== -->
+    <section class="view view-login" id="viewLogin">
+      <div class="login-art"><img id="loginArt" alt="" /></div>
+
+      <div class="login-panel">
+        <div class="card auth-card">
+          <h1 id="loginTitle">Bon retour !</h1>
+          <p class="muted" id="loginSub">Connecte-toi pour accéder au jeu.</p>
+
+          <div class="tabs" role="tablist">
+            <button class="tab active" data-mode="signin" role="tab">Connexion</button>
+            <button class="tab" data-mode="signup" role="tab">Créer un compte</button>
+          </div>
+
+          <button class="btn-google" id="btnGoogle" type="button">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.6 5.4 2.6 13.3l7.9 6.2C12.4 13.7 17.7 9.5 24 9.5z" />
+              <path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.4 5.8c4.3-4 6.9-9.9 6.9-17.2z" />
+              <path fill="#FBBC05" d="M10.5 28.7c-.5-1.4-.8-3-.8-4.7s.3-3.3.8-4.7l-7.9-6.2C.9 16.5 0 20.1 0 24s.9 7.5 2.6 10.9l7.9-6.2z" />
+              <path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.4-5.8c-2.1 1.4-4.8 2.3-8.5 2.3-6.3 0-11.6-4.2-13.5-10l-7.9 6.2C6.6 42.6 14.6 48 24 48z" />
+            </svg>
+            Continuer avec Google
+          </button>
+
+          <div class="divider"><span>ou avec ton email</span></div>
+
+          <form id="authForm" novalidate>
+            <label class="field signup-only">
+              <span>Pseudo</span>
+              <input id="fPseudo" maxlength="20" autocomplete="nickname" placeholder="Ton nom en jeu" />
+            </label>
+            <label class="field">
+              <span>Email</span>
+              <input id="fEmail" type="email" autocomplete="email" placeholder="toi@exemple.com" />
+            </label>
+            <label class="field">
+              <span>Mot de passe</span>
+              <div class="pw">
+                <input id="fPassword" type="password" autocomplete="current-password" placeholder="6 caractères minimum" />
+                <button type="button" id="togglePw" title="Afficher le mot de passe">
+                  <svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" /><circle cx="12" cy="12" r="3" /></svg>
+                </button>
+              </div>
+            </label>
+            <div class="form-msg" id="formMsg" role="alert"></div>
+            <button type="submit" class="btn-primary btn-block" id="btnSubmit">Se connecter</button>
+            <button type="button" class="link signin-only" id="btnForgot">Mot de passe oublié ?</button>
+          </form>
+
+          <div class="google-wait hidden" id="googleWait">
+            <div class="loader"></div>
+            <h3>Termine la connexion dans ton navigateur</h3>
+            <p class="muted">Une page Google vient de s'ouvrir. Choisis ton compte, puis reviens ici.</p>
+            <button class="btn-ghost" id="btnCancelGoogle" type="button">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ACCUEIL ===================== -->
+    <section class="view view-home" id="viewHome">
+      <!-- Bibliothèque : un bouton par jeu (remplie par app.js) -->
+      <aside class="library" id="library" aria-label="Bibliothèque de jeux">
+        <span class="library-head">JEUX</span>
+        <div class="library-list" id="libraryList" role="tablist"></div>
+      </aside>
+
+      <div class="hero" id="hero">
+        <div class="hero-art"><img id="heroArt" alt="" /></div>
+        <div class="hero-content">
+          <span class="pill pill-accent" id="heroTag">En développement</span>
+          <img class="hero-logo hidden" id="heroLogo" alt="" />
+          <h1 class="hero-title" id="heroTitle"></h1>
+          <p class="hero-slogan" id="heroSlogan"></p>
+          <div class="ext-links" id="extLinks"></div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn-play" id="btnPlay" disabled>
+            <svg class="play-icon" viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z" /></svg>
+            <span id="playLabel">VÉRIFICATION</span>
+          </button>
+          <div class="status">
+            <div class="status-line">
+              <span id="statusMain">Vérification du jeu…</span>
+              <span id="statusSide"></span>
+            </div>
+            <div class="progress hidden" id="progress"><div class="bar" id="progressBar"></div></div>
+            <div class="status-sub" id="statusSub"></div>
+          </div>
+          <div class="opt">
+            <button class="icon-btn" id="btnGameMenu" title="Options du jeu" aria-haspopup="menu">
+              <svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="19" cy="12" r="1.6" /></svg>
+            </button>
+            <div class="menu menu-up" id="gameMenu" role="menu">
+              <button data-action="zip" class="hidden"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" /></svg>Installer depuis un fichier .zip…</button>
+              <button data-action="repair"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0 5 5L22 14l-8 8-3-3 2.3-2.3a4 4 0 0 0-5-5L6 14 2 10l8-8 3 3z" /></svg>Vérifier / réparer les fichiers</button>
+              <button data-action="folder"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg>Ouvrir le dossier du jeu</button>
+              <button data-action="settings"><svg viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6" /></svg>Paramètres</button>
+              <div class="menu-sep"></div>
+              <button data-action="uninstall" class="danger"><svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 15h10l1-15" /></svg>Désinstaller</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="news-strip">
+        <div class="strip-head">
+          <h2>Dernières actus</h2>
+          <button class="link" data-view="news">Tout voir →</button>
+        </div>
+        <div class="cards" id="homeNews"></div>
+      </div>
+    </section>
+
+    <!-- ===================== ACTUALITÉS ===================== -->
+    <section class="view view-news" id="viewNews">
+      <div class="news-page">
+        <h1>Actualités <span class="muted">&amp; patch notes</span></h1>
+        <div class="news-grid" id="newsGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FENÊTRES (MODALES) ===================== -->
+  <div class="modal-backdrop" id="backdrop"></div>
+
+  <div class="modal" id="modalSettings" role="dialog" aria-labelledby="settingsTitle">
+    <div class="modal-head">
+      <h2 id="settingsTitle">Paramètres</h2>
+      <button class="icon-btn" data-close><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" /></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="setting">
+        <div>
+          <strong id="setDirTitle">Dossier d'installation</strong>
+          <p class="muted path" id="setDir"></p>
+        </div>
+        <button class="btn-ghost" id="btnChooseDir">Changer</button>
+      </div>
+      <label class="setting">
+        <div>
+          <strong>Cacher le launcher pendant que je joue</strong>
+          <p class="muted">Il réapparaît quand tu quittes le jeu.</p>
+        </div>
+        <input type="checkbox" class="switch" id="setHide" />
+      </label>
+      <label class="setting">
+        <div>
+          <strong>Lancer au démarrage de Windows</strong>
+          <p class="muted">Seulement dans la version installée du launcher.</p>
+        </div>
+        <input type="checkbox" class="switch" id="setStartup" />
+      </label>
+      <label class="setting setting-col">
+        <strong>Arguments de lancement</strong>
+        <p class="muted">Options ajoutées au lancement du jeu (ex : -fullscreen).</p>
+        <input id="setArgs" maxlength="500" placeholder="Aucun" />
+      </label>
+      <p class="muted small" id="aboutLine"></p>
+    </div>
+  </div>
+
+  <div class="modal" id="modalProfile" role="dialog" aria-labelledby="profileTitle">
+    <div class="modal-head">
+      <h2 id="profileTitle">Mon profil</h2>
+      <button class="icon-btn" data-close><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" /></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="profile-top">
+        <span class="avatar avatar-xl" id="profAvatar"></span>
+        <div>
+          <strong class="prof-name" id="profName"></strong>
+          <p class="muted" id="profEmail"></p>
+          <span class="pill" id="profProvider"></span>
+        </div>
+      </div>
+      <form class="field-row" id="nameForm" novalidate>
+        <label class="field grow">
+          <span>Pseudo</span>
+          <input id="profPseudo" maxlength="20" />
+        </label>
+        <button class="btn-primary" type="submit">Enregistrer</button>
+      </form>
+      <div class="form-msg" id="profMsg" role="alert"></div>
+      <p class="muted small">Identifiant joueur : <code id="profUid"></code></p>
+    </div>
+  </div>
+
+  <div class="modal modal-news" id="modalNews" role="dialog" aria-labelledby="newsTitle">
+    <button class="icon-btn modal-x" data-close><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" /></svg></button>
+    <div class="news-cover" id="newsCover"></div>
+    <div class="modal-body">
+      <div class="news-meta"><span class="pill pill-accent" id="newsTag"></span><span class="muted" id="newsDate"></span></div>
+      <h2 id="newsTitle"></h2>
+      <div class="news-content" id="newsContent"></div>
+      <button class="btn-ghost hidden" id="newsLink">Lire sur le site →</button>
+    </div>
+  </div>
+
+  <div class="modal modal-sm" id="modalConfirm" role="alertdialog" aria-labelledby="confirmTitle">
+    <div class="modal-body">
+      <h2 id="confirmTitle"></h2>
+      <p class="muted" id="confirmText"></p>
+      <div class="modal-actions">
+        <button class="btn-ghost" id="confirmNo">Annuler</button>
+        <button class="btn-danger" id="confirmYes">Confirmer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

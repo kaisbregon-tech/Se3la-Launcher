@@ -1,0 +1,22 @@
+{
+  "news": [
+    {
+      "id": "patch-1-0-0",
+      "title": "Patch 1.0.0 : la sortie !",
+      "date": "2026-12-01",
+      "tag": "Patch notes",
+      "image": "https://exemple.com/images/patch-1-0-0.jpg",
+      "summary": "Le jeu sort officiellement. Voici tout ce qui change.",
+      "content": "NOUVEAUTÉS\n• ...\n\nCORRECTIONS\n• ...",
+      "url": "https://exemple.com/patch-1-0-0"
+    },
+    {
+      "id": "annonce",
+      "title": "Titre de ton annonce",
+      "date": "2026-11-20",
+      "tag": "Annonce",
+      "summary": "Petit résumé affiché sur la carte.",
+      "content": "Texte complet affiché quand on clique sur l'actu."
+    }
+  ]
+}

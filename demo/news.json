@@ -1,0 +1,29 @@
+{
+  "news": [
+    {
+      "id": "bienvenue",
+      "title": "Bienvenue sur le launcher officiel",
+      "date": "2026-11-09",
+      "tag": "Annonce",
+      "image": "assets/fond.jpg",
+      "summary": "Crée ton compte, télécharge le jeu et reçois les mises à jour automatiquement.",
+      "content": "Le launcher est en ligne !\n\n• Connexion avec Google ou email\n• Téléchargement et mises à jour automatiques\n• Patch notes directement ici\n\nCes actus sont des exemples : modifie le fichier news.json pour publier les tiennes."
+    },
+    {
+      "id": "patch-0-1-0",
+      "title": "Patch 0.1.0 : première version jouable",
+      "date": "2026-11-01",
+      "tag": "Patch notes",
+      "summary": "Première build de test : déplacements, première map et menu principal.",
+      "content": "NOUVEAUTÉS\n• Première map jouable\n• Menu principal et options graphiques\n\nCORRECTIONS\n• Le joueur ne traverse plus les murs\n• Meilleures performances au chargement"
+    },
+    {
+      "id": "communaute",
+      "title": "Rejoins la communauté",
+      "date": "2026-10-20",
+      "tag": "Communauté",
+      "summary": "Donne ton avis sur le jeu, signale des bugs et suis le développement en direct.",
+      "content": "Ajoute le lien de ton Discord dans launcher.config.js (liens.discord) pour qu'un bouton apparaisse dans le launcher."
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "news": [
+    {
+      "id": "mc-3-16",
+      "title": "Version 3.16 : la villa de Palm Heights",
+      "date": "2026-11-12",
+      "tag": "Patch notes",
+      "image": "actu-3-16.jpg",
+      "summary": "Une vraie villa d'architecte à acheter, un hall de palais, une piscine intérieure et une chambre de culture.",
+      "content": "• La villa de Palm Heights est une grande villa blanche à toits plats : escalier de pierre, cyprès, abri à voiture en lattes de bois, éclairée la nuit.\n• On l'achète à sa porte (60 000 $ d'argent propre, quand elle est à vendre). Corrigé : avant, on ne pouvait l'acheter que depuis sa chambre de culture, fermée tant qu'on ne l'avait pas achetée, et l'acte 4 ne pouvait jamais commencer.\n• À l'intérieur, un grand hall de palais : double escalier, galerie, lustres, fontaine avec le coffre (dormir, sauvegarder, ranger la weed, cultivateur) et deux gardes.\n• Les portes du hall mènent à la piscine intérieure et à la chambre de culture ; en sortant, on revient dans le hall.\n• Collisions vérifiées une à une : aucune chute à travers le sol, la fente derrière la maison est bouchée, le bord du bassin ne laisse plus passer, la voiture de la villa sort tout droit dans la rue.\n• Téléchargement allégé : le jeu tient dans un zip de 372 Mo."
+    },
+    {
+      "id": "mc-3-15",
+      "title": "Version 3.15 : conduite plus calme",
+      "date": "2026-11-12",
+      "tag": "Patch notes",
+      "image": "actu-3-15.jpg",
+      "summary": "Véhicules moins rapides, chaque véhicule vérifié, et une vérification complète du jeu.",
+      "content": "• 83 km/h en pointe en voiture (avant 130), 94 km/h à moto, 76 km/h en hors-bord, accélération plus douce, marche arrière à 22 km/h.\n• Chaque véhicule vérifié un par un : la marche avant avance, la marche arrière recule, il roule droit. En montant, la caméra se place derrière le véhicule.\n• Toutes les portes et tous les points [E] sont atteignables à pied (Flamingo Room, Solara Mart du Barrio, Gator Pit, Pixel Palace corrigés).\n• Plus de voiture garée dans un abribus ou un mur, plus de blocage quand deux fondus au noir arrivent en même temps.\n• Circulation testée dans 4 quartiers : aucun accrochage, aucun piéton percuté."
+    },
+    {
+      "id": "mc-3-14",
+      "title": "Version 3.14 : cinématiques et braquages",
+      "date": "2026-11-12",
+      "tag": "Patch notes",
+      "image": "actu-3-14.jpg",
+      "summary": "Les grands moments de l'histoire en cinématique, 4 supérettes à braquer et la nouvelle Armurerie Del Mar.",
+      "content": "• Discussions filmées : Ramón, Tito, Big Earl, Jade, Disco Dex, Kowalski, Big Lou… se jouent en cinématique (plan à deux, champ / contrechamp, gros plan sur la dernière réplique).\n• Braquages : 4 supérettes « Solara Mart 24/7 ». Vise le caissier et garde-le en joue pendant qu'il vide la caisse. Si tu le lâches des yeux, il déclenche l'alarme. En sortant, la police arrive (2 étoiles).\n• L'Armurerie Del Mar est un vrai bâtiment de briques, avec comptoir vitré et tableaux d'armes aux murs."
+    },
+    {
+      "id": "mc-bienvenue",
+      "title": "Bienvenue à Port Solara",
+      "date": "2026-11-12",
+      "tag": "Le jeu",
+      "image": "actu-bienvenue.jpg",
+      "summary": "Port Solara, 1986. Pars de rien dans le Barrio Coral et prends la ville, quartier par quartier.",
+      "content": "Midnight City est un jeu en monde ouvert dans une ville côtière des années 80 : Barrio Coral, Ocean Strip, Downtown, les Marais, l'aéroport, Palm Heights et Isla Marea.\n\nVoitures, motos et hors-bord, missions d'histoire en cinématique, braquages, planques, culture et revente, police et gangs rivaux.\n\nLe launcher installe le jeu et te propose chaque nouvelle version dès qu'elle est publiée : clique sur METTRE À JOUR et c'est fait."
+    }
+  ]
+}
