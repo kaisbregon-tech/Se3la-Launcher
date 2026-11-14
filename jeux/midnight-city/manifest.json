@@ -1,18 +1,23 @@
 {
-  "version": "3.17",
+  "version": "3.18",
   "exe": "MidnightCity.exe",
-  "date": "2026-11-14T12:02:57.318Z",
+  "date": "2026-11-14T13:20:51.939Z",
   "files": [
     {
       "path": "LISEZMOI.txt",
-      "size": 19083,
-      "sha256": "ae076be01eb5db912d3dee96590a2c536c62747e9548c47df5a35e6d500632c7"
+      "size": 19809,
+      "sha256": "a86dd038b692a8bf81b57fa3c826293ad07412eb21280bbc9643664b0919e408"
     },
     {
       "path": "MidnightCity.exe",
-      "size": 464037152,
-      "sha256": "75fdfb67da26bf85494ba77a433c687ca9b3e3df8b40fb2c95e4480a7331a4d4"
+      "size": 97678336,
+      "sha256": "cd6c7fc9e31752d19dcfb2637f0b73c52018ce86d89bfa99a6a39998414e3599"
+    },
+    {
+      "path": "MidnightCity.pck",
+      "size": 654551952,
+      "sha256": "b3604d0b7793ac3669ccd57086b506f36863b6a5e8b4bbdac4309c1a9fc03612"
     }
   ],
-  "baseUrl": "https://github.com/kaisbregon-tech/Se3la-Launcher/releases/download/midnight-city-3.17/"
+  "baseUrl": "https://github.com/kaisbregon-tech/Se3la-Launcher/releases/download/midnight-city-3.18/"
 }

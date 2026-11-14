@@ -79,14 +79,33 @@ async function uploadAsset(release, file, name, log) {
   if (existing) await api('DELETE', `/repos/${release._owner}/${release._repo}/releases/assets/${existing.id}`);
   const url = `${release.upload_url.replace(/\{.*\}$/, '')}?name=${encodeURIComponent(name)}`;
   log(`  envoi de ${name} (${(size / 1048576).toFixed(1)} Mo)…`);
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: headers({ 'Content-Type': 'application/octet-stream', 'Content-Length': String(size) }),
-    body: fs.createReadStream(file),
-    duplex: 'half',
+  // envoi en flux (le fichier n'est jamais charge en entier en memoire), avec l'avancement
+  await new Promise((resolve, reject) => {
+    const u = new URL(url);
+    const mod = u.protocol === 'https:' ? require('https') : require('http');
+    const req = mod.request(u, { method: 'POST', headers: headers({ 'Content-Type': 'application/octet-stream', 'Content-Length': String(size) }) }, (res) => {
+      let txt = '';
+      res.setEncoding('utf8');
+      res.on('data', (d) => (txt += d));
+      res.on('end', () => (res.statusCode < 300 ? resolve() : reject(new Error(`Envoi de ${name} refusé : ${res.statusCode} ${txt.slice(0, 300)}`))));
+    });
+    req.on('error', (e) => reject(new Error(`Envoi de ${name} interrompu : ${e.message}`)));
+    const inp = fs.createReadStream(file);
+    let sent = 0;
+    let step = 0;
+    inp.on('data', (c) => {
+      sent += c.length;
+      const pct = Math.floor((sent / size) * 10);
+      if (size > 20 * 1048576 && pct > step) {
+        step = pct;
+        log(`    ${pct * 10} %`);
+      }
+    });
+    inp.on('error', reject);
+    inp.pipe(req);
   });
-  if (!res.ok) throw new Error(`Envoi de ${name} refusé : ${res.status} ${(await res.text()).slice(0, 300)}`);
 }
+
 
 async function putFile(owner, repo, repoPath, content, message) {
   const cur = await api('GET', `/repos/${owner}/${repo}/contents/${repoPath}?ref=main`, null, { ok404: true });

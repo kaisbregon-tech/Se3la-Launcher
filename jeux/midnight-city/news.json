@@ -1,6 +1,15 @@
 {
   "news": [
     {
+      "id": "mc-3-18",
+      "title": "Version 3.18 : fini les gels en ville",
+      "date": "2026-11-14",
+      "tag": "Patch notes",
+      "image": "actu-3-18.jpg",
+      "summary": "Les textures prennent 4 fois moins de mémoire vidéo : plus de gel quand on tourne la caméra ou qu'on traverse un quartier.",
+      "content": "• Textures compressées pour la carte graphique : 0,3 Go de mémoire vidéo en ville au lieu de 1,3 Go. Sur une carte de 2 à 4 Go ou un processeur graphique intégré, la mémoire pouvait déborder et l'image geler.\n• Le ciel recalcule ses reflets toutes les 1,5 s au lieu de 5 fois par seconde.\n• Le jeu est maintenant en deux fichiers (MidnightCity.exe et MidnightCity.pck) : le launcher s'en occupe tout seul."
+    },
+    {
       "id": "mc-3-17",
       "title": "Version 3.17 : le jeu tourne beaucoup mieux",
       "date": "2026-11-13",

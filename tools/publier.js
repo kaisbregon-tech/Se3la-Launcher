@@ -235,20 +235,107 @@ function homeFolder(spec) {
   return base ? path.join(os.homedir(), base, ...parts.slice(1)) : '';
 }
 
+/**
+ * Le zip le plus recent du jeu. Un gros zip peut arriver en morceaux (MidnightCity-3.18-Windows.zip.001,
+ * .002...) : les morceaux sont recolles dans un fichier temporaire.
+ */
+async function findGameZip(def, zipArg) {
+  const { scanFolders, compareVersions, patternToRegex } = require('../src/main/zip-updater');
+  const folders = def.zip.dossiers.map(homeFolder).filter(Boolean);
+  if (zipArg) folders.unshift(path.dirname(path.resolve(String(zipArg))));
+  const found = await scanFolders(folders, def.zip.motif); // zips entiers
+  const partRe = patternToRegex(`${def.zip.motif}.001`);
+  const seen = new Set();
+  for (const dir of folders) {
+    let names;
+    try {
+      names = await fsp.readdir(dir);
+    } catch {
+      continue;
+    }
+    for (const name of names) {
+      const m = partRe.exec(name);
+      if (!m || !/^\d+(\.\d+)*$/.test(m[1])) continue;
+      const base = name.slice(0, -4);
+      const parts = [];
+      for (let k = 1; k < 100; k++) {
+        const pth = path.join(dir, `${base}.${String(k).padStart(3, '0')}`);
+        if (!fs.existsSync(pth)) break;
+        parts.push(pth);
+      }
+      const key = path.join(dir, base).toLowerCase();
+      if (seen.has(key)) continue;
+      seen.add(key);
+      found.push({ path: null, parts, name: base, dir, version: m[1], mtimeMs: fs.statSync(parts[0]).mtimeMs });
+    }
+    // morceaux emballes dans des zips (MidnightCity-3.18-Windows-partie1.zip, -partie2.zip...)
+    const wrapRe = patternToRegex(def.zip.motif.replace(/\.zip$/i, '-partie1.zip'));
+    for (const name of names) {
+      const m = wrapRe.exec(name);
+      if (!m || !/^\d+(\.\d+)*$/.test(m[1])) continue;
+      const wrappers = [];
+      for (let k = 1; k < 100; k++) {
+        const pth = path.join(dir, name.replace(/-partie1\.zip$/i, `-partie${k}.zip`));
+        if (!fs.existsSync(pth)) break;
+        wrappers.push(pth);
+      }
+      const base = def.zip.motif.replace('*', m[1]);
+      const key = path.join(dir, base).toLowerCase() + '|w';
+      if (seen.has(key)) continue;
+      seen.add(key);
+      found.push({ path: null, wrappers, name: base, dir, version: m[1], mtimeMs: fs.statSync(wrappers[0]).mtimeMs });
+    }
+  }
+  // le plus recent ; a version egale, le zip entier plutot que les morceaux
+  const split = (z) => (z.parts || z.wrappers ? 1 : 0);
+  found.sort((a, b) => compareVersions(b.version, a.version) || split(a) - split(b));
+  return found[0] || null;
+}
+
+/** Des morceaux : on les recolle dans un fichier temporaire (supprime apres l'envoi). */
+async function materialize(best) {
+  const tmpParts = [];
+  if (best.wrappers) {
+    // chaque zip « partieN » contient un morceau : on le sort (avec verification) puis on recolle
+    const { readZip, extractEntry } = require('../src/main/zip');
+    best.parts = [];
+    for (const w of best.wrappers) {
+      const entry = (await readZip(w)).entries.find((e) => !e.isDir);
+      if (!entry) throw new Error(`${path.basename(w)} est vide.`);
+      const out = path.join(os.tmpdir(), `sel3a-${path.basename(entry.name)}`);
+      log(`Lecture de ${path.basename(w)}…`);
+      await extractEntry(w, entry, out);
+      tmpParts.push(out);
+      best.parts.push(out);
+    }
+  }
+  if (best.parts) {
+    const joined = path.join(os.tmpdir(), best.name);
+    log(`Assemblage de ${best.parts.length} morceaux de ${best.name}…`);
+    const out = fs.createWriteStream(joined);
+    for (const pth of best.parts) {
+      await new Promise((resolve, reject) => {
+        const inp = fs.createReadStream(pth);
+        inp.on('error', reject);
+        inp.on('end', resolve);
+        inp.pipe(out, { end: false });
+      });
+    }
+    await new Promise((resolve) => out.end(resolve));
+    best.path = joined;
+    best.temp = true;
+  }
+  for (const t of tmpParts) await fsp.rm(t, { force: true }).catch(() => {});
+}
+
 async function publishGames(owner, repo, zipArg) {
   const config = require('../launcher.config.js');
-  const { scanFolders, compareVersions, versionFromName } = require('../src/main/zip-updater');
+  const { compareVersions } = require('../src/main/zip-updater');
   const { publishGame } = require('./publier-github');
   let published = 0;
   for (const def of config.autresJeux || []) {
     if (!def.zip || !def.urlManifest) continue;
-    let zip = null;
-    if (zipArg && versionFromName(zipArg, def.zip.motif)) {
-      zip = { path: zipArg, version: versionFromName(zipArg, def.zip.motif), name: path.basename(zipArg) };
-    } else {
-      const found = await scanFolders(def.zip.dossiers.map(homeFolder).filter(Boolean), def.zip.motif);
-      zip = found[0] || null;
-    }
+    const zip = await findGameZip(def, zipArg);
     const manifestFile = path.join(ROOT, 'jeux', def.id, 'manifest.json');
     let online = null;
     try {
@@ -265,7 +352,13 @@ async function publishGames(owner, repo, zipArg) {
       continue;
     }
     log(`\n${def.nom} ${zip.version} : envoi de ${zip.name} (ça peut prendre quelques minutes)…`);
-    const { manifest } = await publishGame({ zip: zip.path, jeu: def.id, version: zip.version, owner, repo, token: TOKEN, writeManifest: false, log });
+    await materialize(zip);
+    let manifest;
+    try {
+      ({ manifest } = await publishGame({ zip: zip.path, jeu: def.id, version: zip.version, owner, repo, token: TOKEN, writeManifest: false, log }));
+    } finally {
+      if (zip.temp) await fsp.rm(zip.path, { force: true }).catch(() => {});
+    }
     await fsp.mkdir(path.dirname(manifestFile), { recursive: true });
     await fsp.writeFile(manifestFile, `${JSON.stringify(manifest, null, 2)}\n`);
     published++;
