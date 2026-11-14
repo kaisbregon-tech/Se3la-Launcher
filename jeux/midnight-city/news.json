@@ -1,6 +1,15 @@
 {
   "news": [
     {
+      "id": "mc-3-17",
+      "title": "Version 3.17 : le jeu tourne beaucoup mieux",
+      "date": "2026-11-13",
+      "tag": "Patch notes",
+      "image": "actu-3-17.jpg",
+      "summary": "Beaucoup moins de saccades : physique allégée, ombres plus légères, préchauffage au chargement et nouveaux réglages graphiques.",
+      "content": "• Les passants et les voitures loin de toi ne calculent plus leurs collisions avec les immeubles, et les passants immobiles ne recalculent plus rien : environ 5 fois moins de physique en ville. C'était la grosse cause des saccades.\n• Ombres du soleil plus légères (2 zones sur 90 m) et plus d'ombres la nuit : 30 à 50 % de dessin en moins.\n• Les petits objets lointains ne sont plus dessinés et les lumières de nuit lointaines s'éteignent en fondu.\n• Pendant le chargement, chaque personnage, voiture et matériau est préparé une fois : plus de saccade quand ils apparaissent la première fois.\n• Nouveaux réglages : Distance d'affichage, Résolution 3D et Anticrénelage. Sur un PC modeste : Résolution 3D vers 0,7 et Passants vers 0,6."
+    },
+    {
       "id": "mc-3-16",
       "title": "Version 3.16 : la villa de Palm Heights",
       "date": "2026-11-12",
