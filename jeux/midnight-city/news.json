@@ -1,6 +1,15 @@
 {
   "news": [
     {
+      "id": "mc-3-19",
+      "title": "Version 3.19 : plus de blocage à la villa ni au garage",
+      "date": "2026-11-14",
+      "tag": "Patch notes",
+      "image": "actu-3-19.jpg",
+      "summary": "L'escalier de la villa ne bloque plus, les murs invisibles du garage ont disparu, et on ne sort plus du décor par une porte vitrée.",
+      "content": "• Escalier d'entrée de la villa : les marches n'avaient pas de collision par-dessus (faces du modèle à l'envers), on s'enfonçait dedans et on restait bloqué. On le monte maintenant normalement, et on ne traverse plus les murs de la villa.\n• Garage du début : les cônes de lumière du plafond faisaient des murs invisibles qui soulevaient le personnage. Corrigé. Le côté qui donnait sur le vide est fermé par un rideau de fer, l'escalier du fond par deux fûts.\n• Collisions des deux côtés partout : les vitrines et portes vitrées ne se traversent plus, les supérettes ne laissent plus sortir dans le vide, les côtés ouverts du club et de la piscine sont fermés.\n• Les paillassons ne font plus trébucher, on ne grimpe plus sur les passants ni sur les voitures en marchant, et coincé sur une arête alors que le passage est libre, le personnage est décalé tout seul.\n• Vérifié à pied dans tous les intérieurs, autour de la villa et du garage : aucun blocage, aucun soulèvement, aucune sortie du décor."
+    },
+    {
       "id": "mc-3-18",
       "title": "Version 3.18 : fini les gels en ville",
       "date": "2026-11-14",

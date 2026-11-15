@@ -1,0 +1,13 @@
+{
+  "news": [
+    {
+      "id": "se3la-1-0",
+      "title": "SE3LA 1.0 : les pousses se rebellent",
+      "date": "2026-11-15",
+      "tag": "Nouveau jeu",
+      "summary": "Un shoot'em up arcade en pixel art 16 bits : tu es un petit joint volant contre des armées de pousses de cannabis, sur 5 niveaux et 6 boss.",
+      "content": "• 5 niveaux : GREEN FIELDS, NEON FOREST, TOXIC GARDEN, PIXEL JUNGLE et GREEN DIMENSION, chacun avec sa musique chiptune.\n• Des pousses de cannabis partout : petites pousses rapides, pousses moyennes, grosses pousses blindées, pousses volantes, kamikazes et pousses en pot. Au milieu de chaque niveau, une POUSSE GÉANTE bloque le passage.\n• 5 boss avec barre de vie et plusieurs phases : BIG BUD, NEON SATIVA, THE ROOT, GREEN KING et LA PLANTE MÈRE, une immense pousse animée.\n• 3 personnages (le Joint, le Blunt, le Pétard), 4 looks à débloquer, et l'ATELIER pour améliorer ton joint avec les graines ramassées.\n• Multiplicateur jusqu'à ×8, vies bonus, 10 meilleurs scores avec tes initiales, sauvegarde automatique et CONTINUER.\n• Commandes : ZQSD ou WASD pour bouger, ESPACE pour tirer, X pour la grosse taffe, MAJ pour le tir précis, ÉCHAP pour la pause. Manette acceptée. Plein écran avec F11.",
+      "image": "assets/jeux/se3la/actu-1-0.jpg"
+    }
+  ]
+}

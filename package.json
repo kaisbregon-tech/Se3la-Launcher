@@ -1,7 +1,7 @@
 {
   "name": "sel3a-launcher",
   "productName": "SEL3A Launcher",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Launcher officiel de mon jeu : comptes joueurs, téléchargement, mises à jour et actus.",
   "main": "src/main/main.js",
   "author": "Mon Studio",

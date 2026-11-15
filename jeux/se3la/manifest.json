@@ -1,0 +1,18 @@
+{
+  "version": "1.0",
+  "exe": "SE3LA.exe",
+  "date": "2026-11-15T13:24:59.403Z",
+  "files": [
+    {
+      "path": "LISEZMOI.txt",
+      "size": 2670,
+      "sha256": "92198257df8129f3448e7b4c1d557ae64a4b680af897e411d68e4eff8fc2c6e7"
+    },
+    {
+      "path": "SE3LA.exe",
+      "size": 101882768,
+      "sha256": "56943d7ec8612ee577cabcb9a8079d2cb42857f5db0d3e186d6b52ad11965f85"
+    }
+  ],
+  "baseUrl": "https://github.com/kaisbregon-tech/Se3la-Launcher/releases/download/se3la-1.0/"
+}
